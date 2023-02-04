@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef enum boolean { FALSE, TRUE, ERROR } boolean;
 
 boolean strequals( char *str1, char *str2 );

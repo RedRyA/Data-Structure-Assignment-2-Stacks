@@ -1,7 +1,7 @@
 # Makefile comments
 PROGRAMS = driver
 CC = gcc
-CFLAGS = -Wall -g -std=c89 -pedantic
+CFLAGS = -Wall -g #-std=c89 -pedantic
 all: $(PROGRAMS)
 clean:
 	rm -f *.o

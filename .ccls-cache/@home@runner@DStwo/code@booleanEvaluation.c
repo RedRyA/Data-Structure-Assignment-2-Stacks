@@ -1,4 +1,4 @@
-// IDEAS:  
+// IDEAS:
 // a SWITCH CASE FOR T F and OPERATORS
 /*
 
@@ -13,49 +13,19 @@ binary operator op1 op2 BICOND op1 == op2
 
 
 
-stack *ps
-char *str
-
-struct Stack {
-    int top;
-    unsigned capacity;
-    int* array;
-};
 
 
-struct Stack* createStack(unsigned capacity)
-{
-    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
-    stack->capacity = capacity;
-    stack->top = -1;
-    stack->array = (int*)malloc(stack->capacity * sizeof(int));
-    return stack;
-}
- 
-// Stack is full when top is equal to the last index
-int isFull(struct Stack* stack)
-{
-    return stack->top == stack->capacity - 1;
-}
- 
-// Stack is empty when top is equal to -1
-int isEmpty(struct Stack* stack)
-{
-    return stack->top == -1;
-}
 
 */
 
-
+#include <ctype.h>
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
-#include <ctype.h>
 
-#include "stack.h"
 #include "booleanEvaluation.h"
 #include "booleanWithError.h"
-
+#include "stack.h"
 
 /* TODO
  * printName
@@ -64,47 +34,59 @@ int isEmpty(struct Stack* stack)
  *
  * Prints name of the student who worked on this solution
  */
-void printName( )
-{
-    /* TODO : Fill in your name */
-    printf("This solution was completed by:\n");
-    printf("<Ryan Reddoch>\n");
+void printName() {
+  /* TODO : Fill in your name */
+  printf("This solution was completed by:\n");
+  printf("<Ryan Reddoch>\n");
 }
+int i = 0;
 
 /* TODO
  * evaluatePostfix
- * input: a postfix expression (calls tokenizeString to get the tokens from the string)
- * output: T, F, or E
+ * input: a postfix expression (calls tokenizeString to get the tokens from the
+ * string) output: T, F, or E
  *
- * Uses a stack to evaluates the postfix expression and returns the result as a string where "T" denotes true and "F" denotes false.
- * If the postfix expression is invalid it returns "E" to denote an error has occurred.  Be sure to use the helpful functions in booleanEvaluation.
+ * Uses a stack to evaluates the postfix expression and returns the result as a
+ * string where "T" denotes true and "F" denotes false. If the postfix
+ * expression is invalid it returns "E" to denote an error has occurred.  Be
+ * sure to use the helpful functions in booleanEvaluation.
  *
  * Hints:
  * - DO NOT free the parameter str.  It is freed by the calling function.
  * - Be sure to use the helpful functions in booleanEvaluation.
- * - Test your code often!  Get it working correctly for the first couple test cases instead of trying to solve all of them at once.
+ * - Test your code often!  Get it working correctly for the first couple test
+ * cases instead of trying to solve all of them at once.
  */
-char *evaluatePostfix( char *str )
-{
-    /* Your variable Declarations: */
-    int tokenCount;
-    char** arrTokens;/* = tokenizeString( str, &tokenCount ); */  /* Currently commented out to prevent a memory leak.  Uncomment to get the tokens from str. */
 
+char *evaluatePostfix(char *str) {
+  /* Your variable Declarations: */
+  char op1;
+  char op2;
+  char *ps;
+  int i;
+  int tokenCount;
+  char **arrCount;
 
+  arrCount = tokenizeString(
+      str, &tokenCount); // Currently commented out to   prevent a memory leak.
+                         // Uncomment to get the token from str.
 
+  for (i = 0; i < tokenCount; i++) {
+    printf("%s", arrCount[i]);
+  }
 
-    /* Your code: */
+  // char *postfixToInfix( char *str );
 
+  /* Your code: */
 
-
-
-    return booleanToString( ERROR ); /* Replace this with your actual solution to return */
+  return booleanToString(
+      ERROR); /* Replace this with your actual solution to return */
 }
 
 /* TODO
  * postfixToInfix
- * input: a postfix expression (calls tokenizeString to get the tokens from the string)
- * output: the equivalent infix expression
+ * input: a postfix expression (calls tokenizeString to get the tokens from the
+ * string) output: the equivalent infix expression
  *
  * Uses a stack to convert str to its equivalent expression in infix.
  * You can assume that the postfix expression is valid
@@ -112,25 +94,24 @@ char *evaluatePostfix( char *str )
  * Hints:
  * - DO NOT free the parameter str.  It is freed by the calling function.
  * - Be sure to use the helpful functions in booleanEvaluation.
- * - Test your code often!  Get it working correctly for the first couple test cases instead of trying to solve all of them at once.
+ * - Test your code often!  Get it working correctly for the first couple test
+ * cases instead of trying to solve all of them at once.
  */
-char *postfixToInfix( char *str )
-{
-    /* Your variable Declarations: */
-    int tokenCount;
-    char** arrTokens;/* = tokenizeString( str, &tokenCount ); */  /* Currently commented out to prevent a memory leak.  Uncomment to get the tokens from str. */
+char *postfixToInfix(char *str) {
+  /* Your variable Declarations: */
+  int tokenCount;
+  char **arrTokens;
+  // = tokenizeString(str, &tokenCount); /* Currently commented out to
+  /*    prevent a memory leak.
+      Uncomment to get the tokens
+      from str. */
 
+  /* Your code: */
+  // free()
 
-
-
-    /* Your code: */
-
-
-
-
-    return booleanToString( ERROR ); /* Replace this with your actual solution to return */
+  return booleanToString(
+      ERROR); /* Replace this with your actual solution to return */
 }
-
 
 /* You may want to create some helper functions down here! */
 ///////////////MY LOGIC FUNCTIONS//////////////////////////
@@ -155,7 +136,7 @@ op1 && op2
 return true;
 
 
-}else false 
+}else false
 } */
 
 /////////NAND ///////////////
@@ -169,7 +150,7 @@ return True;
 
 */
 ///////////OR/////////////
-/* 
+/*
 int or(){
 if {TT || TF || FT}{
  op1 || op2
@@ -206,7 +187,7 @@ return True;
 
 */
 /////////XNOR//////////
-/* 
+/*
 int xnor()
 if (TT || FF)
 {
@@ -217,7 +198,7 @@ return True;
 
 */
 ////////////CONDITIONAL////////////
-/* 
+/*
 int cond(){
 !op1 || op2
 if (TT || FT || FF){
@@ -236,7 +217,7 @@ return True;
 */
 
 //////////BICONDITIONAL//////////////
-/* 
+/*
 int bicon(){
 op1 == op2
 if (TT || FF){
@@ -247,5 +228,3 @@ return True;
 }
 
 */
-
-
