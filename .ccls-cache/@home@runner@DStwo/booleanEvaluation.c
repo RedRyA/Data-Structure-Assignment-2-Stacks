@@ -62,52 +62,63 @@ char *evaluatePostfix(char *str) {
   /* Your variable Declarations: */
   char op1;
   char op2;
-
+  char boolean;
+  Stack *ps;
   int tokenCount;
-  char **arrTokens;
 
-  arrTokens = tokenizeString(str, &tokenCount);
+  char **arrTokens = tokenizeString(str, &tokenCount);
   for (i = 0; i < tokenCount; i++) {
-    printf("Heeeeeeeee");
+    if (str[i] == 'T' || str[i] == 'F') {
+      push(ps, &str[i]);
+
+    } else {
+      boolean = str[i];
+    }
   }
+
+  if (boolean == 'AND') {
+
+    and(op1, op2, boolean);
+  }
+
+  /* switch(operator){
+
+         case 'AND' :
+
+            break;
+         case 'NOT' :
+           return !op1;
+         case 'NAND' :
+            return !(op1 && op2);
+            break;
+         case 'OR' :
+            return op1 || op2;
+            break;
+         case 'XOR':
+            return op1 ! = op2;
+            break;
+         case 'NOR':
+             return !(op1 || op2);
+             break;
+         case 'COND':
+             return !op1 || op2;
+            break;
+         case "BICOND":
+             return op1 == op2;
+         default:
+         return booleanToString;
+      }
+
+   }
+
+
+
+ */
 
   // Currently commented out to   prevent a memory leak.
   // Uncomment to get the token from str.
 
   // char *postfixToInfix( char *str );
-  /*
-  char boolean=NULL;
-
-  switch(boolean){
-
-        case 'AND' :
-           return op1 && op2;
-           break;
-        case 'NOT' :
-          return !op1;
-        case 'NAND' :
-           return !(op1 && op2);
-           break;
-        case 'OR' :
-           return op1 || op2;
-           break;
-        case 'XOR':
-           return op1 ! = op2;
-           break;
-        case 'NOR':
-            return !(op1 || op2);
-            break;
-        case 'COND':
-            return !op1 || op2;
-           break;
-        case "BICOND":
-            return op1 == op2;
-        default:
-        return booleanToString;
-     }
-
-  }
-*/
 
   /* Your code: */
 
@@ -157,16 +168,17 @@ return !op1
 
 } */
 
-////////AND//////////////////
-/*void and(){
-if (TT){
-op1 && op2
+int and (op1, op2, op) {
+  Stack *ps;
+  pop(ps);
+  op1 = top;
+  pop(ps);
+  op2 = top;
+  if (op1 && op2) {
 
-return true;
-
-
-}else false
-} */
+    return T;
+  }
+}
 
 /////////NAND ///////////////
 /* void nand()
