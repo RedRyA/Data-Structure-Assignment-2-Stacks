@@ -1,4 +1,4 @@
-T NOT
+T NOT 
 F
 F NOT
 T

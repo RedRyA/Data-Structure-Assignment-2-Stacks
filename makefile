@@ -19,4 +19,3 @@ driver.o: driver.c stack.h booleanWithError.h
 # Executable programs
 driver: booleanEvaluation.o booleanWithError.o tokenizeString.o stack.o driver.o 
 	$(CC) $(CFLAGS) -o driver booleanEvaluation.o booleanWithError.o tokenizeString.o stack.o driver.o
-

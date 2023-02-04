@@ -62,16 +62,52 @@ char *evaluatePostfix(char *str) {
   /* Your variable Declarations: */
   char op1;
   char op2;
-  char *ps;
-  int i;
-  int tokenCount;
-  char **arrCount;
 
-  // = tokenizeString(
-  //   str, &tokenCount); // Currently commented out to   prevent a memory leak.
+  int tokenCount;
+  char **arrTokens;
+
+  arrTokens = tokenizeString(str, &tokenCount);
+  for (i = 0; i < tokenCount; i++) {
+    printf("Heeeeeeeee");
+  }
+
+  // Currently commented out to   prevent a memory leak.
   // Uncomment to get the token from str.
 
   // char *postfixToInfix( char *str );
+  /*
+  char boolean=NULL;
+
+  switch(boolean){
+
+        case 'AND' :
+           return op1 && op2;
+           break;
+        case 'NOT' :
+          return !op1;
+        case 'NAND' :
+           return !(op1 && op2);
+           break;
+        case 'OR' :
+           return op1 || op2;
+           break;
+        case 'XOR':
+           return op1 ! = op2;
+           break;
+        case 'NOR':
+            return !(op1 || op2);
+            break;
+        case 'COND':
+            return !op1 || op2;
+           break;
+        case "BICOND":
+            return op1 == op2;
+        default:
+        return booleanToString;
+     }
+
+  }
+*/
 
   /* Your code: */
 
@@ -96,11 +132,8 @@ char *evaluatePostfix(char *str) {
 char *postfixToInfix(char *str) {
   /* Your variable Declarations: */
   int tokenCount;
-  char **arrTokens;
-  // = tokenizeString(str, &tokenCount); /* Currently commented out to
-  /*    prevent a memory leak.
-      Uncomment to get the tokens
-      from str. */
+
+  //  = tokenizeString(str, &tokenCount); /* Currently commented out to prevenb
 
   /* Your code: */
   // free()
@@ -182,17 +215,7 @@ return True;
 }
 
 */
-/////////XNOR//////////
-/*
-int xnor()
-if (TT || FF)
-{
-return True;
 
-
-}else return False;
-
-*/
 ////////////CONDITIONAL////////////
 /*
 int cond(){
