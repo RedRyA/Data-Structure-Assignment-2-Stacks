@@ -1,0 +1,110 @@
+READ ALL THE CODE AND TAKES NOTES MY DUDE !!!!!!!!!!!!!!!!!!
+
+//	tokenize str takes an input array, runs it through
+//	 boolean statements (basically) and outputs a new array
+ 
+# I need to take input from tokenize str, run it through literal boolean statements
+# and output to an array (stack)
+
+	MAJOR NOTES :
+#DOME	LOOK AT DATAFLOW AND CALLS;
+#DONE	LOOK AT TODO FROM ALL FILES;
+# 	REMEMBER TO POP() OP2 1ST IF USE
+#	Use booleanToString and StringtoBoolean!!
+#	USE AS MANY OF PROFS FUNCT AS POSSIBLE // DON'T BLATANTLY COPY HER CODE THOUGH!!!!
+#	INCREASE COUNT FOR ALL TOKENS
+#	MAKE AND MALLOC A BUFFER
+#	STRCPY(ARRAY[INDEX],BUFFER)
+#	BUFFER[INDEX]=STR[INDEX]
+#  ARRTOKENS HOLD T F IN THE i AND NOT, NOT ETC IN THE J 
+	////////////////////////////////////////////
+
+	NOTES FROM PDF :
+# HINTS FOR MEMORY MANAGEMENT:
+	PUSH() A STR AND THEN FREE STR // PROFS BOOLEAN FUNCTIONS HELP
+		USE TOKENIZE STR INSTEAD OF
+		STRTOK()
+			FREE STACK IF CASE IS AN ERROR
+
+				//////////// EVALUATE POSTFIX ///////////////////////
+
+				ARRTOKEN	 // PROFS ARRAY MALLOC AND FREE
+					STACK PS // PROFS STACK // WHAT DO WITH THIS?
+
+#1	 Create STACK S //  Look at STACK PS //:
+#2	 For each x, IF x == T or F PUSH() to STACK S:
+	///          ///    DECLARE VARIABLES:
+	char *
+	op1;				 // HOLDS OPERAND
+			 char*  op2; // HOLDS OPERAND
+			 char*  x; // HOLDS OPERATOR 
+			 int count; // THE # OF TOKENS
+
+#3	 ELSE x is a unary (NOT) operator POP() operand "T" or "F" and calculate:  
+		DECLARE variables op1, x, count
+		IF not at least ONE operand / Return ERROR
+		DECLARE and POP operand (op1) from STACK S
+		Compute X OP1 ( !op1 ) 
+		PUSH result to S
+		FREE op1 and X
+
+#4	IF x is a binary operator:
+	        IF not at least TWO operand / Return ERROR
+                POP() operand and set op2  from STACK S
+                Compute ( !op1 ) 
+                PUSH result to S
+                FREE op1, op2 and X
+
+#5	IF STACK S contains more operand that can be eval. return ERROR:
+
+#6	POP() S and return to STRINGTOBOOLEAN:
+
+#7	FREE arrays and variables BUT NOT STR (S) (THE ONE THAT STACK S RETURNED)
+	I
+///////////////	READ ALL THE CODE AND TAKES NOTES MY DUDE!!!!!!!!!!!!!!!!!!
+
+	///////////!! POSTFIX TO BOOLEAN MY IDEAS ! ////////////////////
+	
+	int count = 0; // this will increase as we iterate through
+ newARRTOKENS (o  r as we get data from ARRTOKENS 
+	// look at tokenize string function for hints
+
+	
+1	declare array char ** newARRTOKENS  // GETS DATA PASSED FROM ARRTOKENS 
+2	malloc array newARRTOKENS=(char**)malloc(sizeof(char*)*count
+3	pass string from ARRTOKENS into array with for or while loop
+4	get count(# of tokens) // ALL TOKENS OR JUST T F?
+5	FREE ARRTOKENS
+6	iterate through new array
+7	filter out T and F push() those two into Stack* ps
+8		
+
+	MY BOOLEAN FUNCTION FOR THE STRING POSTFIX  SHOULD PUSH() A "T" OR "F"
+	// there is a stringToBoolean function that the professor wrote. 
+//////////////////////////////////////////////////////////////////////////////////////////
+
+	///////////////////// POSTFIX TO INFIX ///////////////////////////////////////
+
+#1	Create STACK S;
+#2	IF token is T or F, PUSH()
+#3	ELSE UNARY
+#4	Rearrang op1, x and op2		
+#5	PUSH() newSTR into STACK S
+#6	Return STACK S str but don't free str //PROFS FUNCT WILL DO THAT
+
+# 
+
+ 
+/////////////////// TODO and NOTES  IN .C FILES //////////////////////////
+
+////	BOOLEANEVALUATION.C
+#1		Evaluate POSTFIX
+#2		POSTFIXTOINFIX	
+
+
+////	BOOLEANWITHERROR.C
+	# PASS STR WITH RETURN TO BOOLEANTOSTRING 
+
+
+
+
