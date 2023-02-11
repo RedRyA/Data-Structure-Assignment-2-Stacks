@@ -47,80 +47,73 @@ char *evaluatePostfix(char *str)
     char *x[10]; // holds operator;
     char *testArray[] = {"NOT", "AND", "NAND", "OR",
                          "NOR", "XOR", "COND", "BICOND"};
+
     int i = 0;
-    int count = 0;
-    char bool2str;
-    int boolyTest;
-    int strTest;
-    /*TOKEN  */
-    int tokenCount;
-    boolean  res;
+    int j = 0;
+    int count = 0; /* counts T and F*/
+    boolean res;
+    boolean bool;
+    boolean bool2;
+    int tokenCount; /*# of Tokens*/
     char **arrTokens = tokenizeString(str, &tokenCount);
 
-    op1 = (char *)malloc(sizeof(char)*count);
-    op2 = (char *)malloc(sizeof(char)*count);
+    op1 = (char *)malloc(sizeof(char) * count);
+    op2 = (char *)malloc(sizeof(char) * count);
     /* Your variable Declarations: */
 
     /* Currently commented out to prevent a memory leak.  Uncomment to get the
      * tokens from str. */
 
-    /* ARRTOKENS HOLD T F IN THE i AND OPERATORS IN J, */
-
-
     for (i = 0; i < tokenCount; i++)
     {
-
+        /* PARSE THROUGH ARRTOKENS FOR T AND F and Push EM' */
         if (strequals(arrTokens[i], "T") || strequals(arrTokens[i], "F"))
         {
-
+            /* count counts the number of T and F */
             count++;
             push(s, arrTokens[i]);
-            
-                
-
-
-            
         }
-                       /* NOT START */
+        /* NOT START */
 
-        if (strequals(arrTokens[i], "NOT"))
+        if (strequals(arrTokens[i], "NOT") && tokenCount <= 2)
         {
-             op1 = pop(s);
-            if(strequals(op1,"T")){
+            op1 = pop(s);
+            if (strequals(op1, "T"))
+            {
 
-                op1="F";
+                op1 = "F";
                 res = stringToBoolean(op1);
-                
-             }
+            }
 
-             else if (strequals(op1, "F"))
-             {
-                op1="T";
-               res = stringToBoolean(op1);
-             }
+            else if (strequals(op1, "F"))
+            {
+                op1 = "T";
+                res = stringToBoolean(op1);
+            }
         }
-                      /*NOT END */
+        /*NOT END */
 
-                    /*AND START*/
-        if (strequals(arrTokens[i], "AND") && count >=1){
-             op2 = pop(s);
-             op1 = pop(s);
+        /*AND START*/
+        if (strequals(arrTokens[i], "AND") && tokenCount <= 3)
+        {
+            op2 = pop(s);
+            op1 = pop(s);
 
-             if (strequals(op1, "T")&&strequals(op2, "T"))
-             {
-               res = stringToBoolean(op1);
+            if (strequals(op1, "T") && strequals(op2, "T"))
+            {
+                res = stringToBoolean(op1);
             }
-            else{
-                res=stringToBoolean("F");
-
+            else
+            {
+                res = stringToBoolean("F");
             }
-                }
-                    /*AND END*/
+        }
+        /*AND END*/
 
-                    /*NAND START*/
+        /*NAND START*/
 
-                if (strequals(arrTokens[i], "NAND") && count >= 1)
-                {
+        if (strequals(arrTokens[i], "NAND") && tokenCount <= 3)
+        {
             op2 = pop(s);
             op1 = pop(s);
 
@@ -132,12 +125,12 @@ char *evaluatePostfix(char *str)
             {
                 res = stringToBoolean("T");
             }
-                }
-                    /*END NAND*/
+        }
+        /*END NAND*/
 
-                    /*START OR*/
-                if (strequals(arrTokens[i], "OR") && count >= 1)
-                {
+        /*START OR*/
+        if (strequals(arrTokens[i], "OR") && tokenCount <= 3)
+        {
             op2 = pop(s);
             op1 = pop(s);
 
@@ -149,16 +142,17 @@ char *evaluatePostfix(char *str)
             {
                 res = stringToBoolean("F");
             }
-                }
-                    /*END OR*/
-                    
-                    /*START XOR*/
-                if (strequals(arrTokens[i], "XOR") && count >= 1)
-                {
+        }
+        /*END OR*/
+
+        /*START XOR*/
+        if (strequals(arrTokens[i], "XOR") && tokenCount <= 3)
+        {
             op2 = pop(s);
             op1 = pop(s);
 
-            if (strequals(op1, "T") && strequals(op2, "F") || strequals(op1, "F") && strequals(op2, "T"))
+            if (strequals(op1, "T") && strequals(op2, "F") ||
+                strequals(op1, "F") && strequals(op2, "T"))
             {
                 res = stringToBoolean("T");
             }
@@ -166,12 +160,12 @@ char *evaluatePostfix(char *str)
             {
                 res = stringToBoolean("F");
             }
-                }
-                    /*END XOR*/
+        }
+        /*END XOR*/
 
-                    /*START NOR*/
-                if (strequals(arrTokens[i], "NOR") && count >= 1)
-                {
+        /*START NOR*/
+        if (strequals(arrTokens[i], "NOR") && tokenCount <= 3)
+        {
             op2 = pop(s);
             op1 = pop(s);
 
@@ -183,12 +177,12 @@ char *evaluatePostfix(char *str)
             {
                 res = stringToBoolean("F");
             }
-                }
-                    /*END NOR*/
+        }
+        /*END NOR*/
 
-                    /*START COND*/
-                if (strequals(arrTokens[i], "COND") && count >= 1)
-                {
+        /*START COND*/
+        if (strequals(arrTokens[i], "COND") && tokenCount <= 3)
+        {
             op2 = pop(s);
             op1 = pop(s);
 
@@ -200,16 +194,17 @@ char *evaluatePostfix(char *str)
             {
                 res = stringToBoolean("T");
             }
-                }
-                    /*END COND*/
+        }
+        /*END COND*/
 
-                    /*BICOND START */
-                if (strequals(arrTokens[i], "BICOND") &&  count >= 1)
-                {
+        /*BICOND START */
+        if (strequals(arrTokens[i], "BICOND") && tokenCount <= 3)
+        {
             op2 = pop(s);
             op1 = pop(s);
 
-            if (strequals(op1, "T") && strequals(op2, "T") || strequals(op1, "F") &&strequals(op2, "F" ))
+            if (strequals(op1, "T") && strequals(op2, "T") ||
+                strequals(op1, "F") && strequals(op2, "F"))
             {
                 res = stringToBoolean("T");
             }
@@ -217,57 +212,154 @@ char *evaluatePostfix(char *str)
             {
                 res = stringToBoolean("F");
             }
+        }
+        /*BICOND END*/
+
+        /*MULTI BOOLOEAN START*/
+        if (tokenCount > 3)
+        {
+           /*MULTI NOT START*/
+            if (strequals(arrTokens[i], "NOT"))
+            {
+                op2 = pop(s);
+                bool = stringToBoolean(op2);
+                bool = !(op2);
+                push(s, booleanToString(bool));
+            }
+            /*MULTI NOT END*/
+
+            /*MULTI AND START*/
+            if (strequals(arrTokens[i], "AND"))
+            {
+                op2 = pop(s);
+                op1 = pop(s);
+              if(strequals(op1,op2))
+              {
+                push(s,"T");
+
+              }
+              else
+              {
+                push(s,"F");
+              }
+            }
+            /*MULT AND END*/
+
+            /*MULTI NAND START*/
+            if (strequals(arrTokens[i], "NAND"))
+            {
+                op2=pop(s);
+                op1=pop(s);
+                if(strequals(op1,"T") && strequals(op2,"T"))
+                {
+                    push(s,"F");
+                } 
+                else{
+
+                    push(s,"T");
                 }
-                    /*BICOND END*/
+            }
+            /*MULTI NAND END*/
 
-printf("COUNT TOTAL = %d \n",count);
-    }         
-       return  booleanToString(res);
-    /* Replace this with your actual solution to return */
-}
+            /*MULTI OR START*/
+            if (strequals(arrTokens[i], "OR"))
+            {
+                op2=pop(s);
+                op1=pop(s);
+                if (strequals(op1, "T") ||strequals(op2, "T"))
+                {
+                    push(s,"T");
 
-//}
+                }  else{
 
-/* TODO
- * postfixToInfix
- * input: a postfix expression (calls tokenizeString to get the tokens from the
- * string) output: the equivalent infix expression
- *
- * Uses a stack to convert str to its equivalent expression in infix.
- * You can assume that the postfix expression is valid
- *
- * Hints:
- * - DO NOT free the parameter str.  It is freed by the calling function.
- * - Be sure to use the helpful functions in booleanEvaluation.
- * - Test your code often!  Get it working correctly for the first couple test
- * cases instead of trying to solve all of them at once.
- */
+                    push(s,"F");
+                }
+            }
+            /*MULTI OR END*/
 
-//////////////////////////////////
-///////////////////////////////
+            /*MULTI NOR START*/
+            if (strequals(arrTokens[i], "NOR"))
+            {
+                op2=(pop,s);
+                op1=(pop,s);
 
-char *postfixToInfix(char *str)
-{
-    printf("p2I \n");
-    /*
-    
-   Stack s;
-   int count; //counts tokens
-   char* op1; // holds 1st operand
-   char* op2; // holds 2nd operand
-   char* x;  // holds operator;
-   Stack createStack();
-   */
-    /* Your variable Declarations: */
-    //   int tokenCount;
-    //   char** arrTokens = tokenizeString( str, &tokenCount );  /* Currently
-    //   commented out to prevent a memory leak.  Uncomment to get the tokens from
-    //   str. */
+                if (strequals(op1, "F") && strequals(op2, "F"))
+                {
+                    push(s,"T");
+                }
+                else
+                {
+                    push(s,"F");
+                }
+            }
+            /*MULTI NOR END*/
 
-    /* Your code: */
+              /*MULTI XOR START*/
+            if (strequals(arrTokens[i], "XOR"))
+            {
+                op2=pop(s);
+                op1=pop(s);
 
-   // return booleanToString(
-   //     ERROR); /* Replace this with your actual solution to return */
-}
+                if (strequals(op1, "F") && strequals(op2, "F")||strequals(op1, "T") && strequals(op2, "T" ))
+                {
+                         
 
-/* You may want to create some helper functions down here! */
+
+
+                }
+            }
+          
+            /*MULTI XOR END*/
+
+        }
+       
+    }
+        return booleanToString(res);
+        /* Replace this with your actual solution to return */
+    }
+
+    //}
+
+    /* TODO
+     * postfixToInfix
+     * input: a postfix expression (calls tokenizeString to get the tokens from the
+     * string) output: the equivalent infix expression
+     *
+     * Uses a stack to convert str to its equivalent expression in infix.
+     * You can assume that the postfix expression is valid
+     *
+     * Hints:
+     * - DO NOT free the parameter str.  It is freed by the calling function.
+     * - Be sure to use the helpful functions in booleanEvaluation.
+     * - Test your code often!  Get it working correctly for the first couple test
+     * cases instead of trying to solve all of them at once.
+     */
+
+    //////////////////////////////////
+    ///////////////////////////////
+
+    char *postfixToInfix(char *str)
+    {
+        printf("p2I \n");
+        /*
+
+       Stack s;
+       int count; //counts tokens
+       char* op1; // holds 1st operand
+       char* op2; // holds 2nd operand
+       char* x;  // holds operator;
+       Stack createStack();
+       */
+        /* Your variable Declarations: */
+        //   int tokenCount;
+        //   char** arrTokens = tokenizeString( str, &tokenCount );  /* Currently
+        //   commented out to prevent a memory leak.  Uncomment to get the tokens from
+        //   str. */
+
+        /* Your code: */
+
+        // return booleanToString(
+        //     ERROR); /* Replace this with your actual solution to return */
+    }
+
+    /* You may want to create some helper functions down here! */
