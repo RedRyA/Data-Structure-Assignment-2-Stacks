@@ -154,7 +154,8 @@ char *evaluatePostfix(char *str) {
     /*END NOR*/
 
     /*START COND*/
-    if (strequals(arrTokens[i], "COND") && tokenCount <= 3) {
+    if (strequals(arrTokens[i], "COND") && tokenCount <= 3) 
+    {
       op2 = pop(s);
       op1 = pop(s);
 
@@ -294,10 +295,18 @@ char *evaluatePostfix(char *str) {
       res = stringToBoolean(pop(s));
     }
   }
+  
+ // print("FREE TEST \n");
+freeStackElements(s);
+  freeStack(s);
+  
   return booleanToString(res);
   /* Replace this with your actual solution to return */
+  
+
 }
 
+  
 //}
 
 /* TODO
@@ -319,69 +328,124 @@ char *evaluatePostfix(char *str) {
 ///////////////////////////////
 
 char *postfixToInfix(char *str) {
-  printf("TEST \n");
+
 
   Stack *s = createStack();
+
 
   char *op1; // holds 1st operand
   char *op2; // holds 2nd operand
   char *x;   // holds operator;
-  char* result;
+
 
   int i = 0;
   int j = 0;
 
   int count = 0; /* counts T and F*/
 
-  boolean res;
-  boolean bool;
-  boolean bool2;
+
 
   int tokenCount; /*# of Tokens*/
   char **arrTokens = tokenizeString(str, &tokenCount);
+ 
   int index;
-  int strLength = strlen(arrTokens[i]);
-  char buffer[1024];
 
-  op1 = (char *)malloc(sizeof(char) * index);
-  op2 = (char *)malloc(sizeof(char) * index);
-  x = (char *)malloc(sizeof(char) * index);
+  char buffer[100];
+
+  char* str1;
+ 
+  op1 = (char *)malloc(sizeof(char) * count);
+  op2 = (char *)malloc(sizeof(char) * count);
+  x = (char *)malloc(sizeof(char) * count);
+  str1 = (char *)malloc(sizeof(char) * count);
  // result = (char *)malloc(sizeof(char) * index);
 
   for (i = 0; i < tokenCount; i++) {
-    printf("TEST at 352 \n");
-    index++;
+    
+    count++;
     /* PARSE THROUGH ARRTOKENS FOR T AND F and Push EM' */
     if (strequals(arrTokens[i], "T") || strequals(arrTokens[i], "F")) {
       /* count counts the number of T and F */
-      count++;
-     
       push(s, arrTokens[i]);
-      printf("TEST at 360 \n");
-    } else {
-      printf("TEST at 361 \n");
-      x = arrTokens[i];
+
+    }
+   if (strequals(arrTokens[i],"NOT")){
+x=arrTokens[i];
+
+strcat(str1,"( ");
+strcat(str1,x);
+strcat(str1," ");
+strcat(str1,pop);
+strcat(str1," )");
+
+
+   }
+    if (strequals(arrTokens[i],"NAND")){
+     x=arrTokens[i];
+     
+      op2=pop(s);
+      op1=pop(s);
+      
+strcat(str1,"( ");
+
+strcat(str1,op1);
+ strcat(str1," "); 
+strcat(str1,x);
+strcat(str1," ");
+strcat(str1,op2);
+strcat(str1," )");
+
+
+
+    }
+    if (strequals(arrTokens[i],"AND"))
+    {
+      x=arrTokens[i];
+  op2=pop(s);
+   op1=pop(s);
+     
+strcat(str1,"( ");
+strcat(str1,op1);
+strcat(str1," ");
+strcat(str1,x);
+strcat(str1," ");
+strcat(str1,op2);
+strcat(str1," )");
+
+
+
+    }
+      if (strequals(arrTokens[i],"OR"))
+    {
+      x=arrTokens[i];
+  op2=pop(s);
+   op1=pop(s);
+    
+strcat(str1,"( ");
+strcat(str1,op1);
+strcat(str1," ");
+strcat(str1,x);
+strcat(str1," ");
+strcat(str1,op2);
+strcat(str1," )");
+
+
+
     }
 
-    if (strequals(arrTokens[i], "NOT")) {
-      printf("TEST at 366 \n");
+  //     ERROR); /* Replace this with your actual solution to retur
 
-      op1 = pop(s);
-      printf("TEST at 372 %s \n", op1);
-
-    } else {
-      printf("TEST at 373 \n");
-      op2 = pop(s);
-      op1 = pop(s);
-      printf("%s %s\n", op1, op2);
-      result = strcat(op1, op2);
-      printf("TEST at 378 \n");
-      printf("%s \n", result);
-    }
+  
   }
-  return "HALP";
-  //     ERROR); /* Replace this with your actual solution to return
+ 
+  free(op1);
+  free(op2);
+ 
+freeStackElements(s);
+freeStack(s);
+return str1;
 }
+  
 
 /* You may want to create some helper functions down here! */
 
