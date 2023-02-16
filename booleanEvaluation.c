@@ -14,7 +14,8 @@
  *
  * Prints name of the student who worked on this solution
  */
-void printName() {
+void printName()
+{
   /* TODO : Fill in your name */
   printf("This solution was completed by:\n");
   printf("<Ryan Reddoch>\n");
@@ -36,271 +37,174 @@ void printName() {
  * - Test your code often!  Get it working correctly for the first couple test
  * cases instead of trying to solve all of them at once.
  */
-char *evaluatePostfix(char *str) {
+char *evaluatePostfix(char *str)
+{
 
   Stack *s = createStack();
 
-  char *op1; // holds 1st operand
-  char *op2; // holds 2nd operand
-
+  char *op1; /* holds 1st operand*/
+  char *op2; /*holds 2nd operand*/ 
+  boolean res=TRUE;
   int i = 0;
 
   int count = 0; /* counts T and F*/
-  boolean res;
+  
 
   int tokenCount; /*# of Tokens*/
   char **arrTokens = tokenizeString(str, &tokenCount);
 
-  op1 = (char *)malloc(sizeof(char) * count);
-  op2 = (char *)malloc(sizeof(char) * count);
+ /* op1 = (char *)malloc(sizeof(char) * count);
+  op2 = (char *)malloc(sizeof(char) * count);*/
   /* Your variable Declarations: */
 
   /* Currently commented out to prevent a memory leak.  Uncomment to get the
    * tokens from str. */
-
-  for (i = 0; i < tokenCount; i++) {
+  for (i = 0; i < tokenCount; i++)
+  {
     /* PARSE THROUGH ARRTOKENS FOR T AND F and Push EM' */
-    if (strequals(arrTokens[i], "T") || strequals(arrTokens[i], "F")) {
+    if (strequals(arrTokens[i], "T") || strequals(arrTokens[i], "F"))
+    {
       /* count counts the number of T and F */
       count++;
       push(s, arrTokens[i]);
+
+      
     }
+  
     /* NOT START */
 
-    if (strequals(arrTokens[i], "NOT") && tokenCount <= 2) {
-      op1 = pop(s);
-      if (strequals(op1, "T")) {
+    if (strequals(arrTokens[i], "NOT") && tokenCount )
+    {
+     
+     op1=pop(s);
+     
+       
+        res = !stringToBoolean(op1);
 
-        op1 = "F";
-        res = stringToBoolean(op1);
-      }
-
-      else if (strequals(op1, "F")) {
-        op1 = "T";
-        res = stringToBoolean(op1);
-      }
+    
     }
     /*NOT END */
 
     /*AND START*/
-    if (strequals(arrTokens[i], "AND") && tokenCount <= 3) {
-      op2 = pop(s);
-      op1 = pop(s);
+    else if (strequals(arrTokens[i], "AND") && tokenCount )
+    {
+      if((top(s)+1)==NULL ){
+        res=stringToBoolean("E");
+      }else{
 
-      if (strequals(op1, "T") && strequals(op2, "T")) {
-        res = stringToBoolean(op1);
-      } else {
-        res = stringToBoolean("F");
+         op2 = pop(s);
+      op1 = pop(s);
+       res=(stringToBoolean(op1) && stringToBoolean(op2));
       }
+     
+
+     
+      
     }
     /*AND END*/
 
     /*NAND START*/
 
-    if (strequals(arrTokens[i], "NAND") && tokenCount <= 3) {
+    else if (strequals(arrTokens[i], "NAND") && tokenCount )
+    {
       op2 = pop(s);
       op1 = pop(s);
 
-      if (strequals(op1, "T") && strequals(op2, "T")) {
-        res = stringToBoolean("F");
-      } else {
-        res = stringToBoolean("T");
-      }
+      
+        res =!( stringToBoolean(op1) && stringToBoolean(op2));
+      
     }
     /*END NAND*/
 
     /*START OR*/
-    if (strequals(arrTokens[i], "OR") && tokenCount <= 3) {
-      op2 = pop(s);
-      op1 = pop(s);
+  else  if (strequals(arrTokens[i], "OR") && tokenCount )
+    {
 
-      if (strequals(op1, "T") || strequals(op2, "T")) {
-        res = stringToBoolean("T");
-      } else {
-        res = stringToBoolean("F");
-      }
+        if ((top(s) + 1) == NULL)
+        {
+       res = stringToBoolean("E");
+        }
+        else
+        {
+
+       op2 = pop(s);
+       op1 = pop(s);
+   res=( stringToBoolean(op1) || stringToBoolean(op2));
+        }
+  
+
+   
+      
     }
     /*END OR*/
 
     /*START XOR*/
-    if (strequals(arrTokens[i], "XOR") && tokenCount <= 3) {
-      op2 = pop(s);
-      op1 = pop(s);
-
-      if ((strequals(op1, "T") && strequals(op2, "F")) ||
-          (strequals(op1, "F") && strequals(op2, "T"))) {
-        res = stringToBoolean("T");
-      } else {
-        res = stringToBoolean("F");
-      }
+  else  if (strequals(arrTokens[i], "XOR") && tokenCount )
+    {
+      op2=pop(s);
+      op1=pop(s);
+        res = (stringToBoolean(op1) !=stringToBoolean(op2)) ;
+      
     }
     /*END XOR*/
 
     /*START NOR*/
-    if (strequals(arrTokens[i], "NOR") && tokenCount <= 3) {
+   else if (strequals(arrTokens[i], "NOR") && tokenCount )
+    {
       op2 = pop(s);
       op1 = pop(s);
 
-      if (strequals(op1, "F") && strequals(op2, "F")) {
-        res = stringToBoolean("T");
-      } else {
-        res = stringToBoolean("F");
-      }
+        res =!( stringToBoolean(op1) || stringToBoolean(op2));
+      
     }
     /*END NOR*/
 
     /*START COND*/
-    if (strequals(arrTokens[i], "COND") && tokenCount <= 3) {
+  else  if (strequals(arrTokens[i], "COND") && tokenCount )
+    {
       op2 = pop(s);
       op1 = pop(s);
 
-      if (strequals(op1, "T") && strequals(op2, "F")) {
-        res = stringToBoolean("F");
-      } else {
-        res = stringToBoolean("T");
-      }
+      res=(!stringToBoolean(op1) || stringToBoolean(op2));
+
     }
     /*END COND*/
 
     /*BICOND START */
-    if (strequals(arrTokens[i], "BICOND") && tokenCount <= 3) {
+  else  if (strequals(arrTokens[i], "BICOND") && tokenCount )
+    {
       op2 = pop(s);
       op1 = pop(s);
 
-      if ((strequals(op1, "T") && strequals(op2, "T")) ||
-          (strequals(op1, "F") && strequals(op2, "F"))) {
-        res = stringToBoolean("T");
-      } else {
-        res = stringToBoolean("F");
-      }
+      
+        res = (stringToBoolean(op1)==stringToBoolean(op2));
+      
     }
-    /*BICOND END*/
-
-    /*MULTI BOOLOEAN START*/
-    if (tokenCount > 3) {
-      /*MULTI NOT START*/
-      if (strequals(arrTokens[i], "NOT")) {
-        op2 = pop(s);
-        if (strequals(op2, "T")) {
-          push(s, "F");
-        } else {
-          push(s, "T");
-        }
-      }
-      /*MULTI NOT END*/
-
-      /*MULTI AND START*/
-      if (strequals(arrTokens[i], "AND")) {
-        op2 = pop(s);
-        op1 = pop(s);
-        if (strequals(op1, op2)) {
-          push(s, "T");
-        } else {
-          push(s, "F");
-        }
-      }
-      /*MULT AND END*/
-
-      /*MULTI NAND START*/
-      if (strequals(arrTokens[i], "NAND")) {
-        op2 = pop(s);
-        op1 = pop(s);
-        if (strequals(op1, "T") && strequals(op2, "T")) {
-          push(s, "F");
-        } else {
-
-          push(s, "T");
-        }
-      }
-      /*MULTI NAND END*/
-
-      /*MULTI OR START*/
-      if (strequals(arrTokens[i], "OR")) {
-        op2 = pop(s);
-        op1 = pop(s);
-        if (strequals(op1, "T") || strequals(op2, "T")) {
-          push(s, "T");
-        } else {
-
-          push(s, "F");
-        }
-      }
-      /*MULTI OR END*/
-
-      /*MULTI NOR START*/
-      if (strequals(arrTokens[i], "NOR")) {
-        op2 = pop(s);
-        op1 = pop(s);
-
-        if (strequals(op1, "F") && strequals(op2, "F")) {
-          push(s, "T");
-        } else {
-          push(s, "F");
-        }
-      }
-      /*MULTI NOR END*/
-
-      /*MULTI XOR START*/
-      if (strequals(arrTokens[i], "XOR")) {
-        op2 = pop(s);
-        op1 = pop(s);
-
-        if ((strequals(op1, "F") && strequals(op2, "F")) ||
-            (strequals(op1, "T") && strequals(op2, "T"))) {
-
-          push(s, "T");
-        } else {
-          push(s, "F");
-        }
-      }
-
-      /*MULTI XOR END*/
-
-      /*MULTI COND START*/
-      if (strequals(arrTokens[i], "COND")) {
-        op2 = pop(s);
-        op1 = pop(s);
-
-        if (strequals(op1, "T") && strequals(op2, "F")) {
-          push(s, "F");
-        } else {
-          push(s, "T");
-        }
-      }
-      /*MULTI COND END*/
-
-      /*MULTI BICOND START*/
-      if (strequals(arrTokens[i], "BICOND")) {
-        op2 = pop(s);
-        op1 = pop(s);
-        if ((strequals(op1, "T") && strequals(op2, "T")) ||
-            (strequals(op1, "F") && strequals(op2, "F"))) {
-
-          push(s, "T");
-        } else {
-
-          push(s, "F");
-        }
-      }
-      /*MULTI BICOND END*/
-      res = stringToBoolean(pop(s));
+ 
+  
+   
     }
+ 
+ if((top(s))!=NULL){
+
+    res=stringToBoolean("E");
   }
 
-  /* for (i = 0; i < tokenCount - 1; i++) {
-     free(arrTokens[i]);
-   }*/
-
-  freeStackElements(s);
+  
+ 
   freeStack(s);
+  for (i = 0; i < tokenCount; i++)
+  {
+    free(arrTokens[i]);
+  }
+  free(arrTokens);
 
-  free(op2);
-
+ 
+  
   return booleanToString(res);
   /* Replace this with your actual solution to return */
 }
 
-//}
 
 /* TODO
  * postfixToInfix
@@ -317,33 +221,27 @@ char *evaluatePostfix(char *str) {
  * cases instead of trying to solve all of them at once.
  */
 
-//////////////////////////////////
-///////////////////////////////
 
-char *postfixToInfix(char *str) {
+char *postfixToInfix(char *str)
+{
   Stack *s = createStack();
   Stack *s2 = createStack();
 
-  // char *op1; // holds 1st operand
-  // char *op2; // holds 2nd operand
-  // char *x;   // holds operator;
 
   int i = 0;
-  // int j = 0;
 
-  // int count = 0; /* counts T and F*/
 
   int tokenCount; /*# of Tokens*/
   char **arrTokens = tokenizeString(str, &tokenCount);
-
+  char *cur_op;
   char *str1;
   char *str2;
   char *str3;
   char *str4;
+  char *op1;
+  char *xOp; /*holds operator*/
+      boolean loop_entered;
 
-  // op1 = (char *)malloc(sizeof(char) * count);
-  // op2 = (char *)malloc(sizeof(char) * count);
-  // x = (char *)malloc(sizeof(char) * count);
   str1 = (char *)malloc(sizeof(char) * 1024);
   str3 = (char *)malloc(sizeof(char) * 1024);
   str4 = (char *)malloc(sizeof(char) * 1024);
@@ -351,58 +249,87 @@ char *postfixToInfix(char *str) {
   memset(str1, '\0', 1024);
   memset(str3, '\0', 1024);
   memset(str4, '\0', 1024);
-  //  result = (char *)malloc(sizeof(char) * index);
 
-  for (i = 0; i < tokenCount; ++i) {
-    if (strequals(arrTokens[i], "T") || strequals(arrTokens[i], "F")) {
+  for (i = 0; i < tokenCount; ++i)
+  {
+    if (strequals(arrTokens[i], "T") || strequals(arrTokens[i], "F"))
+    {
       /* count counts the number of T and F */
 
       push(s, arrTokens[i]);
-
-    } else {
+    }
+    else
+    {
       push(s2, arrTokens[i]);
     }
   }
+    xOp = pop(s2);
 
-  char *op1 = pop(s2);
+  if (strequals(xOp, "NOT"))
+  {
 
-  if (strequals(op1, "NOT")) {
-    sprintf(str1, "( NOT %s )", "%s");
-  } else {
-    sprintf(str1, "( %s %s %s )", "%s", op1, pop(s));
+    sprintf(str1, "( %s %s )",xOp, "%s");
+    printf("273  str1 %s \n",str1);
+  }
+  else
+  {
+    sprintf(str1, "( %s %s %s )", "%s", xOp, pop(s));
+    printf("278 str1 %s \n", str1);
   }
 
-  boolean loop_entered = FALSE;
+   loop_entered = FALSE;
 
-  while (!isEmpty(s2)) {
+  while (!isEmpty(s2))
+  {
     loop_entered = TRUE;
-    char *cur_op = pop(s2);
+    xOp = pop(s2);
 
-    if (strequals(cur_op, "NOT")) {
+    if (strequals(xOp, "NOT"))
+    {
       sprintf(str4, str1, "( NOT %s )");
-    } else if (strequals(cur_op, "OR")) {
-      str2 = pop(s);
-      // memset(str3, '\0', 1024);
-      sprintf(str3, "( %s %s %s )", str2, cur_op, "%s");
-      sprintf(str4, str1, str3);
-      strcpy(str1, str4);
-      free(str2);
-    } else {
-      str2 = pop(s);
-      // memset(str3, '\0', 1024);
-      sprintf(str3, "( %s %s %s )", "%s", cur_op, str2);
-      sprintf(str4, str1, str3);
-      strcpy(str1, str4);
-      free(str2);
+      printf("291 str1 %s \n", str1);
     }
 
-    free(cur_op);
+    else if (strequals(xOp,"AND"))
+    {
+      str2 = pop(s);
+      printf("296 pop(s) str2 %s \n", str1);
+      sprintf(str3, "( %s %s %s )","%s", xOp,str2 ); 
+      sprintf(str4, str1, str3);
+      strcpy(str1, str4);
+      printf("300 str1 %s \n", str1);
+    }
+    else if (strequals(xOp, "OR"))
+    {
+      str2 = pop(s);
+      printf("296 pop(s) str2 %s \n", str1);
+      sprintf(str3, "( %s %s %s )", str2,xOp, "%s" );
+      sprintf(str4, str1, str3);
+      strcpy(str1, str4);
+      printf("300 str1 %s \n", str1);
+
+    }
+    
+    else
+    {
+      str2 = pop(s);
+      sprintf(str3, "( %s %s %s )", "%s", xOp, str2);
+      sprintf(str4, str1, str3);
+      strcpy(str1, str4);
+      printf("308 str1 %s \n", str1);
+    }
+
   }
 
-  if (loop_entered)
+  if (loop_entered) {
     sprintf(str1, str4, pop(s));
-  else
+  printf("315 str1 %s \n", str1);
+  }
+  else {
     sprintf(str1, str1, pop(s));
+    printf("319 str1 %s \n", str1);
+  }
+    
 
   freeStackElements(s);
   freeStackElements(s2);
@@ -412,15 +339,15 @@ char *postfixToInfix(char *str) {
   free(str4);
   freeStack(s);
 
-  /*  for (i = 0; i < tokenCount - 1; i++) {
-      free(arrTokens[i]);
-    }*/
+  for (i = 0; i < tokenCount; i++)
+  {
+    free(arrTokens[i]);
+  }
+  free(arrTokens);
   return str1;
 }
 
 /* You may want to create some helper functions down here! */
 
-// return booleanToString(
-//     ERROR); /* Replace this with your actual solution to return */
 
 /* You may want to create some helper functions down here! */
